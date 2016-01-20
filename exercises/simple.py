@@ -10,32 +10,38 @@ class Stack():
     def __init__(self):
         """Initierar en tom stack.
         """
-        pass
+        self.items = []
 
     def push(self, item):
         """Lägg till `item` överst på stacken.
         """
-        pass
+        self.items.insert(0, item)
 
     def pop(self):
         """Plockar bort och returnerar översta värdet på stacken.
         """
-        pass
+        try:
+            return self.items.pop(0)
+        except IndexError:
+            raise EmptyStack
 
     def peek(self):
         """Returnerar översta värdet på stacken.
         """
-        pass
+        try:
+            return self.items[len(self.items) - 1]
+        except IndexError:
+            raise EmptyStack
 
     def is_empty(self):
         """Returnerar `True` om stacken är tom, annars `False`.
         """
-        pass
+        return self.items == []
 
     def size(self):
         """Returnerar antalet värden på stacken.
         """
-        pass
+        return len(self.items)
 
 
 class Queue():
@@ -45,24 +51,31 @@ class Queue():
     def __init__(self):
         """Initierar en tom kö.
         """
-        pass
+        self.data = []
 
     def enqueue(self, item):
         """Lägger till `ìtem` i slutuet på kön.
         """
-        pass
+        self.data.append(item)
 
     def dequeue(self):
         """Plockar bort det första värdet i kön och returnerar det.
         """
-        pass
+        try:
+            return self.items.pop()
+        except IndexError:
+            raise EmptyStack
 
     def is_empty(self):
         """Returnerar `True` om kön är tom, annars `False`.
         """
-        pass
+        return self.items == []
 
     def size(self):
         """Returnerar antalet värden i kön.
         """
-        pass
+        return len(self.items)
+
+if __name__ == '__main__':
+    s = Stack()
+    print(s.pop())

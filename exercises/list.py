@@ -1,6 +1,6 @@
 """Övningar på ADTn unordered list."""
 
-from exceptions import EmptyList
+from .exceptions import EmptyList
 
 class Node():
     """Implementation av nod för `UnorderedList`.
@@ -9,7 +9,6 @@ class Node():
     def __init__(self, data):
         """Initiera noden med attributen `self._data` och `self._next`.
         """
-        pass
 
 
 class UnorderedList():
