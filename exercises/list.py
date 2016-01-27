@@ -2,6 +2,7 @@
 
 from .exceptions import EmptyList
 
+
 class Node():
     """Implementation av nod för `UnorderedList`.
     """
@@ -72,7 +73,6 @@ class UnorderedList():
 
         return
 
-
     def append(self, item):
         """Lägg till `item` i slutet av listan.
         """
@@ -105,7 +105,6 @@ class UnorderedList():
             self.add(item)
 
         return
-
 
     def index(self, item):
         """Returnerar index i listan för första förekomsten av `item`.
