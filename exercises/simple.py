@@ -15,13 +15,13 @@ class Stack():
     def push(self, item):
         """Lägg till `item` överst på stacken.
         """
-        self.items.insert(0, item)
+        self.items.append(item)
 
     def pop(self):
         """Plockar bort och returnerar översta värdet på stacken.
         """
         try:
-            return self.items.pop(0)
+            return self.items.pop()
         except IndexError:
             raise EmptyStack
 
@@ -29,7 +29,7 @@ class Stack():
         """Returnerar översta värdet på stacken.
         """
         try:
-            return self.items[len(self.items) - 1]
+            return self.items[0]
         except IndexError:
             raise EmptyStack
 
@@ -62,20 +62,16 @@ class Queue():
         """Plockar bort det första värdet i kön och returnerar det.
         """
         try:
-            return self.items.pop()
+            return self.data.pop()
         except IndexError:
-            raise EmptyStack
+            raise EmptyQueue
 
     def is_empty(self):
         """Returnerar `True` om kön är tom, annars `False`.
         """
-        return self.items == []
+        return self.data == []
 
     def size(self):
         """Returnerar antalet värden i kön.
         """
-        return len(self.items)
-
-if __name__ == '__main__':
-    s = Stack()
-    print(s.pop())
+        return len(self.data)
