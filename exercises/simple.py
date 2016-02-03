@@ -4,10 +4,10 @@ from .exceptions import EmptyStack, EmptyQueue
 
 
 class Stack():
-    """Implementation av ADTn stack.
-    """
+    """Implementation av ADTn stack."""
 
     def __init__(self):
+
         """Initierar en tom stack.
         """
         self.items = []
@@ -45,10 +45,10 @@ class Stack():
 
 
 class Queue():
-    """Implementation av ADTn kö (queue).
-    """
+    """Implementation av ADTn kö (queue)."""
 
     def __init__(self):
+
         """Initierar en tom kö.
         """
         self.data = []

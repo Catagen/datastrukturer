@@ -2,6 +2,7 @@ import unittest
 from exercises.list import Node, UnorderedList
 from exercises.exceptions import EmptyList
 
+
 class NodeTests(unittest.TestCase):
     def test_node(self):
         n = Node('test', None)
