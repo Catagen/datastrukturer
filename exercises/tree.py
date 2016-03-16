@@ -38,100 +38,109 @@ class BinarySearchTree():
                 self.right = BinarySearchTree(key, value)
 
 
-    def lookup(self, key, parent=None, rp=False):
+    def lookup(self, key):
         """Sök efter noden med matchande key.
 
         Returnerar matchande noden eller None.
         """
 
-        if key == self.key:
-            return parent if rp else self
-        elif key < self.key and self.left:
-            return self.left.lookup(key, parent=self, rp=rp)
-        elif key > self.key and self.right:
-            return self.right.lookup(key, parent=self, rp=rp)
+        current = self
+        parent = None
 
-        return None
+        while current:
+            if current.key == key:
+                break
+
+            parent = current
+            if current.key > key:
+                current = current.left
+            else:
+                current = current.right
+
+        return current, parent
+
 
     def delete(self, key):
-        """Radera noden med matchande key."""
+        #Radera noden med matchande key.
 
-        bovpappa = self.lookup(key, rp=True)
-        bov = self.lookup(key)
+        node, parent = self.lookup(key)
 
-        nybovpappa = None
-        nybov = None
+        children_count = 0
+        if node.left:
+            children_count += 1
+        if node.right:
+            children_count += 1
 
-        if bov:
 
-            if bov.left:
-                current = bov.left
-
-                while current:
-
-                    if not current.right.right:
-                        nybovpappa = current
-                        nybov = current.right
-
-                    current = current.right
-
-                nybovpappa.right = nybov.left
-
-            elif bov.right:
-                current = bov.right
-
-                while current:
-                    if not current.left.left:
-                        nybovpappa = current
-                        nybov = current.left
-
-                nybovpappa.left = nybov.right
-
+        if children_count == 0:
+            if parent is None:
+                raise Exception(msg = "You may not delete the last node.")
             else:
-                if bovpappa:
-                    if bov == bovpappa.left:
-                        bovpappa.left = None
-                    elif bov == bovpappa.right:
-                        bovpappa.right = None
+                if parent.left is node:
+                    parent.left = None
                 else:
-                    del self
+                    parent.right = None
 
-                return
-
-            nybov.left, nybov.right = bov.left, bov.right
-
-            if bovpappa:
-                if bov == bovpappa.left:
-                    bovpappa.left = nybov
-                elif bov == bovpappa.right:
-                    bovpappa.right = nybov
+        elif children_count == 1:
+            if parent.left is node:
+                if node.right is None:
+                    parent.left = node.left
+                else:
+                    parent.left = node.right
             else:
-                self.key = nybov.key
-                self.left = nybov.left
-                self.right = nybov.right
+                if node.right is None:
+                    parent.right = node.left
+                else:
+                    parent.right = node.right
 
-        else:
-            raise ValueError
+        else: # children_count == 2
+            successor = node.right
+            successor_parent = node
 
-        return
+            while successor.left:
+                successor_parent = successor
+                successor = successor.left
 
-    def traverse(self, this=None):
+            if parent:
+                successor.left = node.left
+                successor.right = node.right
+
+                if parent.left is node:
+                    parent.left = successor
+                else:
+                    parent.right = successor
+
+            else: # no parent
+                node.key = successor.key
+                node.value = successor.value
+
+            if successor_parent.left is successor:
+                successor_parent.left = None
+            else:
+                successor_parent.right = None
+
+
+    def traverse(self):
         """En in-order traversering av trädets noder.
 
         Implementera som en generator.
         """
 
-        if not this: this = self
-
-        if this.left:
-            for node in self.traverse(this.left):
+        if self.left:
+            for node in self.left.traverse():
                 yield node
 
-        yield this
+        yield self
 
-        if this.right:
-            for node in self.traverse(this.right):
+        if self.right:
+            for node in self.right.traverse():
                 yield node
+
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return self.key == other.key and self.left == other.left and self.right == other.right
 
 
     def __str__(self):
@@ -144,17 +153,3 @@ class BinarySearchTree():
             li.append(node.key)
 
         return str(li)
-
-if __name__ == "__main__":
-
-    b = BinarySearchTree(12)
-    b.insert(3)
-    b.insert(10)
-    b.insert(1)
-    b.insert(0)
-    b.insert(3)
-    b.insert(5)
-    b.insert(20)
-    b.insert(18)
-    b.insert(21)
-    print(b)
